@@ -1,6 +1,5 @@
 package careepcup.fb.students;
 
-import java.util.Arrays;
 
 /*
  * A professor wants to see if two students have cheated when writing a paper. 
@@ -10,11 +9,39 @@ import java.util.Arrays;
  * How would you implement this?
  */
 public class Main {
-
+	
 	// http://www.careercup.com/question?id=6196366774632448
-	public static void main(String[] args) {
-		System.out.println(areCheating("surm", "lorem ipsum", 3));
-		System.out.println(areCheatingNoAddMemory("surm", "lorem ipsum", 3));
+	public static void main(String[] args) {		
+		System.out.println(areCheatingNoAddMemory("lor", "lor", 3));
+
+		System.out.println(areCheatingNoAddMemory("lorsdfgsdv", "lorem ipsum", 3));
+		System.out.println(areCheatingNoAddMemory("scsaaslorsdfgsdv", "lorem ipsum", 3));
+		
+		System.out.println(areCheatingNoAddMemory("scsaaslofbdrsdfgsdvlor", "lorem ipsum", 3));
+		System.out.println(areCheatingNoAddMemory("lorem ipsum", "scsaaslofbdrsdfgsdvlor", 3));
+
+		System.out.println(areCheatingNoAddMemory("lolorewevjj", "lorem ipsum", 3));
+		System.out.println(areCheatingNoAddMemory("lorem ipsum", "loloresdvsdhg", 3));
+		
+		// False
+		System.out.println(areCheatingNoAddMemory("trhtjtjyjyjy", "lorem ipsum", 3));
+		System.out.println(areCheatingNoAddMemory("gukgjkykjlohfghfjgfgj", "lorem ipsum", 3));
+		
+		System.out.println("-----------------------------------------------------");
+		
+		System.out.println(areCheatingRegex("tlory", "hlorf", 3));
+		System.out.println(areCheatingRegex("lorsdfgsdv", "lorem ipsum", 3));
+		System.out.println(areCheatingRegex("scsaaslorsdfgsdv", "lorem ipsum", 3));
+		
+		System.out.println(areCheatingRegex("scsaaslofbdrsdfgsdvlor", "lorem ipsum", 3));
+		System.out.println(areCheatingRegex("lorem ipsum", "scsaaslofbdrsdfgsdvlor", 3));
+
+		System.out.println(areCheatingRegex("lolorewevjj", "lorem ipsum", 3));
+		System.out.println(areCheatingRegex("lorem ipsum", "loloresdvsdhg", 3));
+		
+		// False
+		System.out.println(areCheatingRegex("trhtjtjyjyjy", "lorem ipsum", 3));
+		System.out.println(areCheatingRegex("gukgjkykjlohfghfjgfgj", "lorem ipsum", 3));
 	}
 
 	private static boolean areCheatingNoAddMemory(String s1, String s2, int num) {
@@ -29,7 +56,7 @@ public class Main {
 			int i = istart;
 			int jstart = 0;
 			int j = jstart;
-			for (; jstart <= s2AsArray.length-num;) {
+			for (; jstart <= s2AsArray.length - num;) {
 				if (s1AsArray[i] == s2AsArray[j]) {
 					if (++count == num) {
 						return true;
@@ -48,22 +75,13 @@ public class Main {
 		return false;
 	}
 
-	private static boolean areCheating(String s1, String s2, int symbols) {
+	private static boolean areCheatingRegex(String s1, String s2, int symbols) {
 		if (s1.length() < symbols || s2.length() < symbols) {
 			return false;
 		}
-		char[] s1AsArray = s1.toCharArray();
-		char[] s2AsArray = s2.toCharArray();
-		for (int i = 0; i <= s1AsArray.length - symbols; i++) {
-			char[] sub1 = Arrays.copyOfRange(s1AsArray, i, i + symbols);
-			for (int j = 0; j <= s2AsArray.length - symbols; j++) {
-				char[] sub2 = Arrays.copyOfRange(s2AsArray, j, j + symbols);
-				if (Arrays.equals(sub1, sub2)) {
-					return true;
-				}
-			}
-		}
-		return false;
+		String concat = s1 + "\u0001" + s2;
+		String regex= "^[^\u0001]*([^\u0001]{" + symbols + "})[^\u0001]*\u0001[^\u0001]*\\1[^\u0001]*$";
+		return concat.matches(regex);
 	}
 
 }
