@@ -29,7 +29,7 @@ public class Main {
 			int i = istart;
 			int jstart = 0;
 			int j = jstart;
-			for (; jstart <= s2AsArray.length; jstart++) {
+			for (; jstart <= s2AsArray.length-num;) {
 				if (s1AsArray[i] == s2AsArray[j]) {
 					if (++count == num) {
 						return true;
@@ -41,7 +41,7 @@ public class Main {
 				} else {
 					count = 0;
 					i = istart;
-					j = jstart;
+					j = ++jstart;
 				}
 			}
 		}
